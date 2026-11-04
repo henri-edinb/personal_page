@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Henrique Reis Aguiar | Computational Neuroscience & Biological Vision</title>
+    
+    <!-- KaTeX for Mathematics -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            900: '#064e3b',
+                        },
+                        slate: {
+                            850: '#152033',
+                            950: '#0b1120',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(150,150,150,0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(150,150,150,0.5);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .dark .glass-panel {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .katex-display {
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0.25rem 0;
+        }
+        .latent-flow {
+            stroke-dasharray: 6 6;
+            stroke-dashoffset: 0;
+            animation: latent-flow 2.4s linear infinite;
+        }
+        @keyframes latent-flow {
+            from { stroke-dashoffset: 0; }
+            to { stroke-dashoffset: -24; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-200 font-sans antialiased transition-colors duration-300 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 w-full border-b border-slate-200/80 dark:border-slate-800/80 glass-panel">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="font-bold text-lg tracking-tight hover:text-brand-600 dark:hover:text-brand-500 transition-colors flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-brand-500"></span>
+                Henrique Reis Aguiar
+            </a>
+            
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="#about" class="hover:text-brand-600 dark:hover:text-brand-500 transition-colors">About</a>
+                <a href="#research" class="hover:text-brand-600 dark:hover:text-brand-500 transition-colors">Publications</a>
+                <a href="#theory" class="hover:text-brand-600 dark:hover:text-brand-500 transition-colors">Research Ideas</a>
+                <a href="#simulations" class="hover:text-brand-600 dark:hover:text-brand-500 transition-colors">Simulations</a>
+                <a href="#teaching" class="hover:text-brand-600 dark:hover:text-brand-500 transition-colors">Experience & CV</a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <button id="themeToggle" aria-label="Toggle Theme" class="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors">
+                    <i class="fa-solid font-normal fa-moon text-lg dark:hidden"></i>
+                    <i class="fa-solid fa-sun text-lg hidden dark:block text-amber-400"></i>
+                </button>
+                <a href="https://drive.google.com/file/d/1cjYcr_-CbttVXvnPS9K2Vz-0mHk4h_Wu/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center px-3.5 py-1.5 text-xs font-semibold rounded-lg text-white bg-brand-600 hover:bg-brand-700 dark:bg-brand-600 dark:hover:bg-brand-500 transition-all shadow-sm">
+                    <i class="fa-solid fa-file-pdf mr-1.5"></i> CV
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-24">
+
+        <!-- Section 1: Hero / Bio -->
+        <section id="about" class="pt-6 sm:pt-12 flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
+            <!-- Avatar / Photo -->
+            <div class="relative group flex-shrink-0">
+                <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-2xl overflow-hidden ring-4 ring-slate-200 dark:ring-slate-800 shadow-xl bg-gradient-to-tr from-brand-700 to-teal-800">
+                    <img src="https://homepages.inf.ed.ac.uk/mhennig/images/Henrique2.jpg" alt="Portrait of Henrique Reis Aguiar" class="w-full h-full object-cover">
+                </div>
+                <div class="absolute -bottom-2 -right-2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-[10px] font-bold px-2.5 py-1 rounded-full shadow border border-slate-700 dark:border-slate-300 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    PhD Edinburgh '26
+                </div>
+            </div>
+
+            <!-- Profile Overview -->
+            <div class="flex-1 text-center md:text-left space-y-4">
+                <div>
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                        Henrique Reis Aguiar
+                    </h1>
+                    <p class="text-lg sm:text-xl font-medium text-brand-600 dark:text-brand-500 mt-1">
+                        PhD in Computational Neuroscience — University of Edinburgh
+                    </p>
+                </div>
+
+                <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-base max-w-2xl">
+                    My research investigates how biological mechanisms can implement predictive coding and optimize the likelihood of latent-variable models.
+                </p>
+
+                <!-- Latent-variable model illustration -->
+                <figure class="mt-5 max-w-2xl rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-900/70 p-3 sm:p-4 shadow-sm text-left" aria-labelledby="latent-model-caption">
+                    <svg viewBox="0 0 760 220" role="img" aria-labelledby="latent-model-title latent-model-description" class="w-full h-auto">
+                        <title id="latent-model-title">A latent variable model predicts future targets from encoded input</title>
+                        <desc id="latent-model-description">An input is encoded into a latent state, dynamics propagate that state forward, and the model predicts a target. A prior shapes the latent dynamics.</desc>
+                        <defs>
+                            <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                                <path d="M0,0 L8,4 L0,8 Z" fill="currentColor"></path>
+                            </marker>
+                            <linearGradient id="latentGlow" x1="0" x2="1">
+                                <stop offset="0%" stop-color="#10b981" stop-opacity=".16"></stop>
+                                <stop offset="100%" stop-color="#06b6d4" stop-opacity=".22"></stop>
+                            </linearGradient>
+                        </defs>
+
+                        <g class="text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M116 105 H190" marker-end="url(#arrowhead)"></path>
+                            <path d="M295 105 H365" marker-end="url(#arrowhead)"></path>
+                            <path d="M505 105 H585" marker-end="url(#arrowhead)"></path>
+                            <path d="M435 175 V145" class="latent-flow" marker-end="url(#arrowhead)"></path>
+                        </g>
+
+                        <!-- Input -->
+                        <g transform="translate(34 70)">
+                            <rect width="82" height="70" rx="14" class="fill-slate-100 dark:fill-slate-800 stroke-slate-300 dark:stroke-slate-600" stroke-width="2"></rect>
+                            <path d="M18 53 C28 38 35 45 43 31 C51 17 58 34 66 20" fill="none" class="stroke-brand-500" stroke-width="3"></path>
+                            <text x="41" y="91" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300" font-size="13" font-weight="600">input x</text>
+                        </g>
+
+                        <!-- Encoder -->
+                        <g transform="translate(190 65)">
+                            <rect width="105" height="80" rx="18" fill="url(#latentGlow)" class="stroke-brand-500" stroke-width="2"></rect>
+                            <text x="52" y="34" text-anchor="middle" class="fill-slate-800 dark:fill-white" font-size="15" font-weight="700">encoder</text>
+                            <text x="52" y="55" text-anchor="middle" class="fill-slate-500 dark:fill-slate-300" font-size="12">x → y</text>
+                        </g>
+
+                        <!-- Latent dynamics -->
+                        <g transform="translate(365 65)">
+                            <rect width="140" height="80" rx="18" fill="url(#latentGlow)" class="stroke-cyan-500" stroke-width="2"></rect>
+                            <circle cx="28" cy="40" r="5" class="fill-brand-500"></circle>
+                            <circle cx="52" cy="30" r="4" class="fill-cyan-400"></circle>
+                            <circle cx="78" cy="48" r="5" class="fill-brand-500"></circle>
+                            <path d="M91 40 H118" class="stroke-cyan-600 dark:stroke-cyan-300" stroke-width="2" marker-end="url(#arrowhead)"></path>
+                            <text x="70" y="20" text-anchor="middle" class="fill-slate-800 dark:fill-white" font-size="14" font-weight="700">dynamics</text>
+                            <text x="70" y="68" text-anchor="middle" class="fill-slate-500 dark:fill-slate-300" font-size="12">propagate y → ŷ</text>
+                        </g>
+
+                        <!-- Predictive target -->
+                        <g transform="translate(585 70)">
+                            <rect width="105" height="70" rx="14" class="fill-slate-100 dark:fill-slate-800 stroke-slate-300 dark:stroke-slate-600" stroke-width="2"></rect>
+                            <path d="M18 51 C29 42 36 45 45 31 C54 18 62 32 84 19" fill="none" class="stroke-cyan-500" stroke-width="3"></path>
+                            <text x="52" y="91" text-anchor="middle" class="fill-slate-600 dark:fill-slate-300" font-size="13" font-weight="600">predictive target ŷ</text>
+                        </g>
+
+                        <!-- Prior cue -->
+                        <g transform="translate(365 175)">
+                            <rect width="140" height="32" rx="16" class="fill-amber-50 dark:fill-amber-950/40 stroke-amber-400 dark:stroke-amber-500" stroke-width="2"></rect>
+                            <text x="70" y="21" text-anchor="middle" class="fill-amber-800 dark:fill-amber-300" font-size="12" font-weight="700">prior shapes y</text>
+                        </g>
+                    </svg>
+                </figure>
+
+                <!-- Key Focus Pills -->
+                <div class="flex flex-wrap gap-2 justify-center md:justify-start pt-1">
+                    <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-brain text-brand-500 mr-1"></i> Neural Dynamics
+                    </span>
+                    <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-shuffle text-brand-500 mr-1"></i> Predictive Coding
+                    </span>
+                    <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-code-branch text-brand-500 mr-1"></i> Sequence Learning
+                    </span>
+                    <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-bolt text-brand-500 mr-1"></i> Asynchronous Plasticity
+                    </span>
+                </div>
+
+                <!-- Contact & Social Icons -->
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-3">
+                    <a href="mailto:henriquereisaguiar96@gmail.com" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-200/80 dark:bg-slate-800 hover:bg-brand-600 hover:text-white dark:hover:bg-brand-600 transition-all">
+                        <i class="fa-regular fa-envelope mr-1.5"></i> Email
+                    </a>
+                    <a href="https://scholar.google.com/citations?user=b7exmxgAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-200/80 dark:bg-slate-800 hover:bg-brand-600 hover:text-white dark:hover:bg-brand-600 transition-all">
+                        <i class="fa-solid fa-graduation-cap mr-1.5"></i> Google Scholar
+                    </a>
+                    <a href="https://www.linkedin.com/in/henrique-reis-aguiar-a7984812a/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-200/80 dark:bg-slate-800 hover:bg-brand-600 hover:text-white dark:hover:bg-brand-600 transition-all">
+                        <i class="fa-brands fa-linkedin mr-1.5"></i> LinkedIn
+                    </a>
+                    <a href="https://github.com/henri-edinb" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-200/80 dark:bg-slate-800 hover:bg-brand-600 hover:text-white dark:hover:bg-brand-600 transition-all">
+                        <i class="fa-brands fa-github mr-1.5"></i> GitHub
+                    </a>
+                    <a href="https://drive.google.com/file/d/1cjYcr_-CbttVXvnPS9K2Vz-0mHk4h_Wu/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium border border-brand-500 text-brand-600 dark:text-brand-400 hover:bg-brand-500 hover:text-white transition-all">
+                        <i class="fa-solid fa-file-arrow-down mr-1.5"></i> Curriculum Vitae
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Publications & Talks -->
+        <section id="research" class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+                        Publications & Conference Talks
+                    </h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        Peer-reviewed preprints, workshop papers, and conference presentations.
+                    </p>
+                </div>
+
+                <!-- Instant Search Bar -->
+                <div class="relative w-full md:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    <input type="text" id="paperSearch" placeholder="Search title, venue, tag..." 
+                        class="w-full pl-8 pr-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
+                </div>
+            </div>
+
+            <!-- Grid of Publications -->
+            <div id="publicationsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                <!-- Injected via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Section 3: Research Ideas & Theory ("Learning with Dynamics") -->
+        <section id="theory" class="space-y-8">
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">THEORETICAL FRAMEWORK</span>
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mt-1">
+                    Self-supervised learning with biological mechanisms
+                </h2>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                    Core principles linking <strong>inhibitory circuits</strong>, <strong>local plasticity</strong> and <strong>latent-variable models</strong>.
+                </p>
+            </div>
+
+            <!-- Theory Cards Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Pillar 1: Consistency Manifold -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-600 dark:text-brand-400 font-bold">
+                                <i class="fa-solid fa-square-root-variable text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-lg text-brand-600 dark:text-brand-400">Predictive Coding</h3>
+                        </div>
+                        <div class="space-y-4">
+                            <figure class="w-full max-w-xs mx-auto rounded-lg overflow-hidden border border-amber-200 dark:border-amber-700/60 bg-yellow-50 p-2 flex flex-col items-center justify-center">
+                                <img src="https://raw.githubusercontent.com/henri-edinb/predictive_learning/main/delta_vs_hebbian_manifold.png" alt="Predictive and Hebbian updates relative to the consistency manifold" class="block w-full h-auto object-contain object-center">
+                                <figcaption class="sr-only">Predictive updates preserve the consistency manifold</figcaption>
+                            </figure>
+                            <div class="min-w-0 space-y-3">
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                                Inhibitory circuits play a crucial role in maintaining the stability of neural networks. Hebbian/anti-Hebbian networks have shown inhibition could also be important for learning representations. The predictive coding objective is optimized by these networks when the following constraint is satisfied:
+                            </p>
+                            <div class="p-3 flex items-center justify-center overflow-x-auto">
+                                <div id="consistencyManifoldEquation" class="text-slate-600 dark:text-slate-300 text-xs" aria-label="Consistency manifold equation">WW<sup>T</sup> = E[yy<sup>T</sup>]</div>
+                            </div>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                                Standard Hebbian updates do not keep this constraint optimally satisfied at each inference step. Therefore, correct inference and equivalence to predictive coding requires a plasticity rule that optimizes for this constraint. The <strong class="text-slate-900 dark:text-white">predictive rule</strong>
+                                <span class="font-mono text-slate-700 dark:text-slate-200 whitespace-nowrap" aria-label="Delta W equals y minus W x, multiplied by x to the transpose">&Delta;W = (y - Wx)x<sup>T</sup></span>
+                                ensures the update vanishes when consistency holds and corrects deviations instantly.
+                            </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-400 font-mono">
+                        Reis Aguiar & Hennig (bioRxiv 2026)
+                    </div>
+                </div>
+
+                <!-- Pillar 2: Asynchronous Plasticity -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-600 dark:text-brand-400 font-bold">
+                                <i class="fa-solid fa-bolt text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-lg text-brand-600 dark:text-brand-400">Asynchronous Plasticity</h3>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="w-full max-w-xs mx-auto rounded-lg overflow-hidden border border-amber-200 dark:border-amber-500/30 bg-yellow-50 p-2 flex items-center justify-center">
+                                <img src="https://raw.githubusercontent.com/henri-edinb/predictive_learning/main/asynchronous_mechanism.png" alt="Asynchronous Mechanism" class="block w-full h-auto object-contain object-center">
+                            </div>
+                            <div class="min-w-0 space-y-3">
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                                Models that optimize their weights via expectation-maximization have a caveat: they require the system to be in a steady state for the optimization to be effective. Here, we propose some biologically plausible mechanisms that allow latent models to learn without requiring steady-state convergence.
+                            </p>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                                A post-synaptic neuron only updates its weights if it hasn't updated them in a while (<strong class="text-slate-900 dark:text-white">refractory period</strong>) and has high firing-rate (<strong class="text-slate-900 dark:text-white">activity-dependent threshold</strong>). We find using this kind of asynchronous learning prevents catastrophic forgetting for non-stationary distributions.
+                            </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-400 font-mono">
+                        Reis Aguiar & Hennig (NeurIPS 2024)
+                    </div>
+                </div>
+
+                <!-- Pillar 3: Temporal & Continuous Dynamics -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-600 dark:text-brand-400 font-bold">
+                                <i class="fa-solid fa-wave-square text-lg"></i>
+                            </div>
+                            <h3 class="font-bold text-lg text-brand-600 dark:text-brand-400">Temporal Factors</h3>
+                        </div>
+                        <div class="space-y-4">
+                        <div class="w-full max-w-xs mx-auto grid grid-cols-2 gap-1 rounded-lg border border-amber-200 dark:border-amber-700/60 bg-yellow-50 p-1.5 justify-items-center">
+                            <img src="https://raw.githubusercontent.com/henri-edinb/predictive_learning/main/gifs/moving_mnist_gif1.gif" alt="Moving MNIST temporal prediction 1" loading="lazy" class="block w-full aspect-square object-contain object-center rounded-md border border-amber-200">
+                            <img src="https://raw.githubusercontent.com/henri-edinb/predictive_learning/main/gifs/moving_mnist_gif2.gif" alt="Moving MNIST temporal prediction 2" loading="lazy" class="block w-full aspect-square object-contain object-center rounded-md border border-amber-200">
+                            <img src="https://raw.githubusercontent.com/henri-edinb/predictive_learning/main/gifs/moving_mnist_gif3.gif" alt="Moving MNIST temporal prediction 3" loading="lazy" class="block w-full aspect-square object-contain object-center rounded-md border border-amber-200">
+                            <img src="https://raw.githubusercontent.com/henri-edinb/predictive_learning/main/gifs/sequence_crossbar_gif1.gif" alt="Sequence crossbar temporal prediction 1" loading="lazy" class="block w-full aspect-square object-contain object-center rounded-md border border-amber-200">
+                        </div>
+                        <div class="min-w-0 space-y-3">
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                                Adding slow recurrent excitation (\(P\)) allows E-I circuits to capture spatio-temporal dependencies from natural videos (e.g. CATCAM), yielding direction selectivity and sequence completion.
+                            </p>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                                Continuous data-stream training gives rise to <strong class="text-slate-900 dark:text-white">ring attractors</strong> and noise-driven replay, bridging compositional generalization with robust parametric sensorimotor control.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-400 font-mono">
+                        Reis Aguiar & Hennig (Bernstein 2022)
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 4: Interactive Simulations -->
+        <section id="simulations" class="space-y-8">
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">INTERACTIVE LAB</span>
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mt-1">
+                    Inhibitory Dynamics & Hebbian Plasticity
+                </h2>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                    Three-step demonstration: feed-forward activation, lateral inhibitory relaxation ($y^*$), and local Hebbian plasticity applied to lateral weights ($M_{ij}$) using the stable state.
+                </p>
+            </div>
+
+            <!-- Single Comprehensive Interactive Pipeline Simulation -->
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm space-y-6">
+                
+                <!-- Header Status & Stage Indicator -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <div>
+                        <h3 class="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-bolt text-lg text-orange-500"></i>
+                            <span>Adaptive Neural Circuit Example</span>
+                        </h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                            Observe input projection, inhibitory settling to stable state $y^*$, and local Hebbian weight updates on $M_{ij}$.
+                        </p>
+                    </div>
+
+                    <!-- Always Visible Multi-Step Indicators -->
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span id="badgeStep1" class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 transition-all">
+                            Step 1: Input Projection (Wx)
+                        </span>
+                        <span id="badgeStep2" class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700 transition-all">
+                            Step 2: Stable State (y*) & Plasticity
+                        </span>
+                        <span id="badgeStep3" class="text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700 transition-all">
+                            Step 3: Local Plasticity (ΔM)
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Canvas Wrapper Container with Hardcoded Inline Height Fallback for Google Sites -->
+                <div id="simCanvasBox" class="relative w-full rounded-xl overflow-hidden border border-slate-800 bg-slate-950 flex items-center justify-center" style="min-height: 380px; height: 380px;">
+                    <canvas id="pipelineCanvas" class="w-full h-full block" style="width: 100%; height: 100%; min-height: 380px;"></canvas>
+                    
+                    <!-- Overlay Metrics Panel -->
+                    <div class="absolute bottom-3 left-3 right-3 sm:right-auto px-3 py-2 bg-slate-900/90 backdrop-blur rounded-lg border border-slate-800 text-[11px] font-mono text-slate-300 flex flex-wrap items-center gap-4 shadow-lg pointer-events-none">
+                        <span>Euler Iterations: <strong id="pipeStepCount" class="text-orange-400">0</strong> / <span id="maxStepDisplay">100</span></span>
+                        <span>Mean Firing Rate: <strong id="pipeMeanFiring" class="text-orange-400">0.00</strong></span>
+                        <span>Mean Recurrent Inhibitory Synapse: <strong id="pipeMeanInhWeight" class="text-rose-400">0.50</strong></span>
+                    </div>
+                </div>
+
+                <!-- Interactive Pipeline Controls & Parameters -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    
+                    <!-- Execution Controls -->
+                    <div class="bg-slate-50 dark:bg-slate-950/50 p-3.5 rounded-lg border border-slate-200/60 dark:border-slate-800 flex flex-col justify-between space-y-2">
+                        <span class="text-xs font-bold text-slate-700 dark:text-slate-300 font-mono">Playback Controls</span>
+                        <div class="flex items-center gap-2">
+                            <button id="btnPlayPause" class="flex-1 py-1.5 px-3 rounded-lg bg-brand-600 text-white hover:bg-brand-700 text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                                <i id="playIcon" class="fa-solid fa-pause"></i> <span id="playText">Pause</span>
+                            </button>
+                            <button id="btnStepNext" class="py-1.5 px-3 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 text-xs font-bold transition-all" title="Advance Stage Directly">
+                                Step <i class="fa-solid fa-forward-step ml-1"></i>
+                            </button>
+                            <button id="btnNewImage" class="py-1.5 px-3 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 text-xs font-bold transition-all" title="New Input Pattern">
+                                <i class="fa-solid fa-arrows-rotate"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Number of Iterations Control -->
+                    <div class="bg-slate-50 dark:bg-slate-950/50 p-3.5 rounded-lg border border-slate-200/60 dark:border-slate-800 space-y-2 flex flex-col justify-center">
+                        <div class="flex justify-between font-mono text-[11px]">
+                            <span>Max Euler Steps ($N$):</span>
+                            <span id="valMaxIterations" class="text-orange-500 font-bold">100</span>
+                        </div>
+                        <input type="range" id="paramMaxIterations" min="10" max="300" step="10" value="100" class="w-full h-1.5 bg-slate-300 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-orange-500">
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 font-mono mt-1">
+                            Sets settling time for lateral inhibitory dynamics.
+                        </p>
+                    </div>
+
+                    <!-- Inhibitory Parameter Sliders -->
+                    <div class="bg-slate-50 dark:bg-slate-950/50 p-3.5 rounded-lg border border-slate-200/60 dark:border-slate-800 space-y-2 flex flex-col justify-center">
+                        <div class="flex justify-between font-mono text-[11px]">
+                            <span>Hebbian Rate ($\eta$):</span>
+                            <span id="valHebbianRate" class="text-rose-500 font-bold">0.05</span>
+                        </div>
+                        <input type="range" id="paramHebbianRate" min="0.01" max="0.20" step="0.01" value="0.05" class="w-full h-1.5 bg-slate-300 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-rose-500">
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 font-mono mt-1">
+                            Updates lateral weights using stable state ($\Delta M_{ij} \propto y^*_i y^*_j$).
+                        </p>
+                    </div>
+
+                    <!-- Step Explanation Box -->
+                    <div class="bg-slate-50 dark:bg-slate-950/50 p-4 rounded-lg border border-slate-200/60 dark:border-slate-800 flex flex-col justify-between min-h-[140px]">
+                        <span class="text-xs font-bold text-slate-700 dark:text-slate-300 font-mono flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-info text-orange-500"></i> Mechanism Insight
+                        </span>
+                        <p id="stepExplanation" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed my-2">
+                            Input $x$ projects via $Wx$, the population settles to $y^*$, and recurrent lateral synapses $M_{ij}$ adjust locally via Hebbian updates.
+                        </p>
+                        <span class="text-[10px] text-slate-400 font-mono">Continuous dynamics & plastic adaptation</span>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 5: Teaching, Experience & CV -->
+        <section id="teaching" class="space-y-6">
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+                    Academic Experience & Industry Background
+                </h2>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                    Teaching at the University of Edinburgh, quantitative consulting, software engineering, and mobile development.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Teaching & Mentorship -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 space-y-4 shadow-sm flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-600 dark:text-brand-400 font-bold">
+                                <i class="fa-solid fa-chalkboard-user"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-base text-slate-900 dark:text-white">University of Edinburgh</h3>
+                                <p class="text-xs text-slate-500">Tutor & Marker (2019 – 2025)</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                            Tutored small groups of 10–12 students and marked coursework across core theoretical and practical courses:
+                        </p>
+                        <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 list-disc list-inside">
+                            <li><strong class="text-slate-900 dark:text-white">Machine Learning Practical:</strong> Supervised student groups through full-year projects.</li>
+                            <li><strong class="text-slate-900 dark:text-white">Probabilistic Modeling:</strong> Assisted with graduate-level tutorials.</li>
+                            <li><strong class="text-slate-900 dark:text-white">Algorithms & Data Structures:</strong> Guided fundamental CS labs.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Industry Experience: Mobileum -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 space-y-4 shadow-sm flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-600 dark:text-brand-400 font-bold">
+                                <i class="fa-solid fa-industry"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-base text-slate-900 dark:text-white">Mobileum</h3>
+                                <p class="text-xs text-slate-500">Data Scientist / Engineer (2018 – 2019)</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                            Consultant for telecommunications enterprises focusing on predictive algorithms and fraud detection:
+                        </p>
+                        <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 list-disc list-inside">
+                            <li>Implemented probabilistic outlier-classification models to prevent telecom network fraud.</li>
+                            <li>Applied high-dimensional dimensionality reduction techniques.</li>
+                            <li>Delivered client-facing technical proposals across teams.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Industry Experience: ORBCOM -->
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 space-y-4 shadow-sm flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-600 dark:text-brand-400 font-bold">
+                                <i class="fa-solid fa-mobile-screen"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-base text-slate-900 dark:text-white">ORBCOM</h3>
+                                <p class="text-xs text-slate-500">Software Developer Intern (Jun 2015 – Jul 2015)</p>
+                                <p class="text-[10px] text-slate-400">Porto, Portugal · 2 mos</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                            Worked in a friendly and helpful work environment where I rapidly acquired technical skills in Computer Science:
+                        </p>
+                        <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 list-disc list-inside">
+                            <li>Learned how to develop iOS applications using the Xcode interface.</li>
+                            <li>Improved skills in distributed systems.</li>
+                            <li>Expanded knowledge of programming languages like C++ and .NET.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 text-center text-xs text-slate-500 dark:text-slate-400">
+        <div class="max-w-6xl mx-auto px-4 space-y-2">
+            <p>&copy; 2026 Henrique Reis Aguiar. All rights reserved. PhD in Computational Neuroscience, University of Edinburgh.</p>
+        </div>
+    </footer>
+
+    <!-- Paper Detail Modal -->
+    <div id="paperModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative">
+            <button onclick="closePaperModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-lg p-2">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Application Scripts -->
+    <script>
+        // Theme Toggle Functionality
+        function initTheme() {
+            const themeToggleBtn = document.getElementById('themeToggle');
+            const userTheme = localStorage.getItem('theme');
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (userTheme === 'dark' || (!userTheme && systemDark)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    if (document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('theme', 'light');
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('theme', 'dark');
+                    }
+                });
+            }
+        }
+
+        // Publications Dataset from CV and papers
+        const publications = [
+            {
+                id: 'biorxiv-2026',
+                title: 'Predictive learning with local plasticity in excitatory-inhibitory networks',
+                authors: 'Henrique Reis Aguiar, Matthias H. Hennig',
+                venue: 'bioRxiv Preprint',
+                date: 'September 2026',
+                badge: 'Preprint',
+                tags: ['Predictive Coding', 'Consistency Manifold', 'BCM Rule', 'E-I Dynamics'],
+                pdfUrl: 'https://www.biorxiv.org/content/10.64898/2026.08.31.748357v1.full.pdf',
+                abstractUrl: 'https://www.biorxiv.org/content/10.64898/2026.08.31.748357v1',
+                githubUrl: 'https://github.com/henri-edinb/predictive_learning',
+                abstract: 'Predictive coding is a normative framework for understanding cortical computation, but it remains an open question how biologically plausible networks support inference and representation learning. We show that a recurrent E-I circuit with purely local plasticity can perform predictive inference without explicit error representations by keeping feed-forward weights on a consistency manifold.'
+            },
+            {
+                id: 'main-2026',
+                title: 'Learning deep representations with biological mechanisms',
+                authors: 'Henrique Reis Aguiar, Matthias H. Hennig',
+                venue: 'Montreal AI and Neuroscience (MAIN 2026)',
+                date: 'October 2026',
+                badge: 'Lightning Talk',
+                award: 'Best Lightning Talk Award',
+                tags: ['Deep Learning', 'Unsupervised Representation', 'Biological Plausibility'],
+                pdfUrl: '',
+                abstractUrl: '',
+                presentationUrl: 'https://docs.google.com/presentation/d/18GyjvNedV_O7DIglSyuhe53p__RPyy4f/edit?usp=sharing&ouid=110380467028459440270&rtpof=true&sd=true',
+                githubUrl: '',
+                abstract: 'Presented novel results extending biologically plausible local plasticity rules to deep vision architectures (CNNs and Vision Transformers), showing that predictive objectives allow deep models to recover factorized, informative representations from high-dimensional natural imagery.'
+            },
+            {
+                id: 'neurips-2024',
+                title: 'Asynchronous Hebbian/anti-Hebbian networks',
+                authors: 'Henrique Reis Aguiar, Matthias H. Hennig',
+                venue: 'The First Workshop on NeuroAI @ NeurIPS 2024',
+                date: 'December 2024',
+                badge: 'NeurIPS Workshop Paper',
+                tags: ['Asynchronous Plasticity', 'Refractory Period', 'Continual Learning'],
+                pdfUrl: 'https://arxiv.org/abs/2501.02402',
+                abstractUrl: 'https://arxiv.org/abs/2501.02402',
+                githubUrl: 'https://github.com/henri-edinb/async_learning',
+                abstract: 'Lateral inhibition models traditionally require recurrent dynamics to settle before applying updates. We introduce an asynchronous Hebbian learning rule with a use-dependent refractory period that operates continuously alongside dynamics and naturally prevents catastrophic forgetting.'
+            },
+            {
+                id: 'bernstein-2022',
+                title: 'E-I networks with slow excitation learn spatio-temporal stimuli',
+                authors: 'Henrique Reis Aguiar, Matthias H. Hennig',
+                venue: 'Bernstein Conference 2022',
+                date: 'July 2022',
+                badge: 'Conference Poster',
+                tags: ['Spatio-temporal', 'Direction Selectivity', 'Slow Excitation'],
+                pdfUrl: '',
+                abstractUrl: 'http://doi.org/10.12751/nncn.bc2022.292',
+                githubUrl: 'https://github.com/henri-edinb/bio_networks',
+                abstract: 'Demonstrated that coupling lateral inhibition with slow recurrent excitation enables local circuits to disentangle spatio-temporal factors from natural video streams, giving rise to direction selectivity and sequence completion.'
+            }
+        ];
+
+        const mathRenderOptions = {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '$', right: '$', display: false}
+            ],
+            throwOnError: false
+        };
+
+        function renderMath(element, attempt = 0) {
+            if (window.renderMathInElement) {
+                window.renderMathInElement(element, mathRenderOptions);
+                return true;
+            }
+
+            if (attempt < 100) {
+                window.setTimeout(() => renderMath(element, attempt + 1), 100);
+            }
+            return false;
+        }
+
+        function renderConsistencyManifoldEquation(attempt = 0) {
+            const equation = document.getElementById('consistencyManifoldEquation');
+            if (!equation) return;
+
+            if (window.katex) {
+                window.katex.render(String.raw`WW^T = \mathbb{E}[yy^T]`, equation, {
+                    displayMode: true,
+                    throwOnError: false,
+                    output: 'htmlAndMathml'
+                });
+                return;
+            }
+
+            if (attempt < 100) {
+                window.setTimeout(() => renderConsistencyManifoldEquation(attempt + 1), 100);
+            }
+        }
+
+        function renderPublications(category = 'all', searchQuery = '') {
+            const grid = document.getElementById('publicationsGrid');
+            if (!grid) return;
+
+            const filtered = publications.filter(pub => {
+                const matchesSearch = pub.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      pub.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                                      pub.venue.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesSearch;
+            });
+
+            grid.innerHTML = filtered.map(pub => `
+                <article role="button" tabindex="0" onclick="openPaperModal('${pub.id}')" onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openPaperModal('${pub.id}'); }" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-brand-400 dark:hover:border-brand-600 transition-all flex flex-col justify-between space-y-3 cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="flex flex-wrap items-center gap-1.5">
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">${pub.badge}</span>
+                                ${pub.award ? `<span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/30"><i class="fa-solid fa-star text-amber-500"></i>${pub.award}</span>` : ''}
+                            </div>
+                            <span class="text-[11px] font-mono text-slate-400">${pub.date}</span>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                            ${pub.title}
+                        </h3>
+                        <p class="text-xs font-medium text-slate-500 dark:text-slate-400">${pub.authors}</p>
+                        <p class="text-xs text-brand-600 dark:text-brand-500 font-medium">${pub.venue}</p>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">${pub.abstract}</p>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-100 dark:border-slate-800">
+                        <div class="flex flex-wrap gap-1">
+                            ${pub.tags.map(t => `<span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+
+            renderMath(grid);
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('paperSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    renderPublications('all', e.target.value);
+                });
+            }
+        }
+
+        function openPaperModal(pubId) {
+            const pub = publications.find(p => p.id === pubId);
+            if (!pub) return;
+
+            const modal = document.getElementById('paperModal');
+            const content = document.getElementById('modalContent');
+            content.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">${pub.badge}</span>
+                        <span class="text-xs font-mono text-slate-400">${pub.date}</span>
+                    </div>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white leading-snug">${pub.title}</h2>
+                    <p class="text-xs font-semibold text-slate-500">${pub.authors}</p>
+                    <p class="text-xs text-brand-600 dark:text-brand-400 font-semibold">${pub.venue}</p>
+                    <div class="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 leading-relaxed space-y-2">
+                        <strong class="text-slate-900 dark:text-white">Abstract:</strong>
+                        <p>${pub.abstract}</p>
+                    </div>
+                    <div class="flex items-center gap-3 pt-2">
+                        ${pub.presentationUrl ? `<a href="${pub.presentationUrl}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 text-xs font-medium rounded-lg bg-brand-600 text-white hover:bg-brand-700 transition-all flex items-center gap-1.5"><i class="fa-solid fa-display"></i> Presentation</a>` : ''}
+                        ${pub.abstractUrl ? `<a href="${pub.abstractUrl}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 text-xs font-medium rounded-lg bg-brand-600 text-white hover:bg-brand-700 transition-all flex items-center gap-1.5"><i class="fa-regular fa-file-lines"></i> Abstract</a>` : ''}
+                        ${pub.pdfUrl ? `<a href="${pub.pdfUrl}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 text-xs font-medium rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all flex items-center gap-1.5"><i class="fa-solid fa-file-pdf"></i> Paper PDF</a>` : ''}
+                        ${pub.githubUrl ? `<a href="${pub.githubUrl}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 text-xs font-medium rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all flex items-center gap-1.5"><i class="fa-brands fa-github"></i> GitHub Code</a>` : ''}
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            renderMath(content);
+        }
+
+        function closePaperModal() {
+            document.getElementById('paperModal').classList.add('hidden');
+        }
+
+        // ==========================================
+        // SIMULATION: Hardened Canvas Pipeline for Google Sites Iframes
+        // ==========================================
+        let simInitialized = false;
+
+        function initPipelineSim() {
+            if (simInitialized) return;
+
+            const canvas = document.getElementById('pipelineCanvas');
+            const box = document.getElementById('simCanvasBox');
+            if (!canvas || !box) return;
+
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+
+            simInitialized = true;
+
+            function resize() {
+                // Guaranteed fallback pixel sizes so width/height never equal 0 in Google Sites IFrames
+                const boxRect = box.getBoundingClientRect();
+                const width = Math.max(750, boxRect.width || box.clientWidth || 800);
+                const height = Math.max(380, boxRect.height || box.clientHeight || 380);
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+                canvas.width = Math.round(width * dpr);
+                canvas.height = Math.round(height * dpr);
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.scale(dpr, dpr);
+            }
+
+            resize();
+            window.addEventListener('resize', resize);
+            if (window.ResizeObserver) {
+                new ResizeObserver(resize).observe(box);
+            }
+
+            const gridCols = 15;
+            const gridRows = 10;
+            const nNeurons = gridCols * gridRows; // 150 neurons
+            const activities = new Float32Array(nNeurons);
+            const feedForwardInputs = new Float32Array(nNeurons);
+            
+            const M = new Float32Array(nNeurons * nNeurons);
+            const plasticityHighlight = new Float32Array(nNeurons * nNeurons);
+            
+            for (let i = 0; i < nNeurons; i++) {
+                const r1 = Math.floor(i / gridCols);
+                const c1 = i % gridCols;
+                for (let j = 0; j < nNeurons; j++) {
+                    if (i === j) continue;
+                    const r2 = Math.floor(j / gridCols);
+                    const c2 = j % gridCols;
+                    const dist = Math.hypot(r1 - r2, c1 - c2);
+                    if (dist < 4.5) {
+                        M[i * nNeurons + j] = 0.3 + 0.2 * Math.random();
+                    }
+                }
+            }
+
+            let isPlaying = true;
+            let currentStage = 0; // 0: Wx, 1: y*, 2: ΔM
+            let stageTimer = 0;
+            let eulerStep = 0;
+            let animPulse = 0;
+
+            const maxIterSlider = document.getElementById('paramMaxIterations');
+            const maxIterDisplay = document.getElementById('valMaxIterations');
+            const maxStepDisplay = document.getElementById('maxStepDisplay');
+            const hebRateSlider = document.getElementById('paramHebbianRate');
+            const hebRateDisplay = document.getElementById('valHebbianRate');
+            
+            function getMaxIterations() {
+                return maxIterSlider ? parseInt(maxIterSlider.value, 10) : 100;
+            }
+
+            if (maxIterSlider) {
+                maxIterSlider.addEventListener('input', (e) => {
+                    const val = e.target.value;
+                    if (maxIterDisplay) maxIterDisplay.innerText = val;
+                    if (maxStepDisplay) maxStepDisplay.innerText = val;
+                });
+            }
+
+            if (hebRateSlider) {
+                hebRateSlider.addEventListener('input', (e) => {
+                    if (hebRateDisplay) hebRateDisplay.innerText = parseFloat(e.target.value).toFixed(2);
+                });
+            }
+
+            let imagePatch = new Float32Array(64);
+            function generateImagePattern() {
+                imagePatch.fill(0);
+                const isHorizontal = Math.random() > 0.5;
+                const pos = Math.floor(Math.random() * 8);
+                for (let i = 0; i < 8; i++) {
+                    if (isHorizontal) imagePatch[pos * 8 + i] = 0.9;
+                    else imagePatch[i * 8 + pos] = 0.9;
+                }
+                
+                for (let r = 0; r < gridRows; r++) {
+                    for (let c = 0; c < gridCols; c++) {
+                        const idx = r * gridCols + c;
+                        const correlated = isHorizontal ? (r % 8 === pos ? 0.85 : 0.05) : (c % 8 === pos ? 0.85 : 0.05);
+                        feedForwardInputs[idx] = correlated * (0.6 + Math.random() * 0.4);
+                        activities[idx] = feedForwardInputs[idx];
+                    }
+                }
+                currentStage = 0;
+                stageTimer = 0;
+                eulerStep = 0;
+                plasticityHighlight.fill(0);
+                updateStageUI();
+            }
+            generateImagePattern();
+
+            const playBtn = document.getElementById('btnPlayPause');
+            if (playBtn) {
+                playBtn.addEventListener('click', () => {
+                    isPlaying = !isPlaying;
+                    const pText = document.getElementById('playText');
+                    const pIcon = document.getElementById('playIcon');
+                    if (pText) pText.innerText = isPlaying ? 'Pause' : 'Play';
+                    if (pIcon) pIcon.className = isPlaying ? 'fa-solid fa-pause' : 'fa-solid fa-play';
+                });
+            }
+
+            const stepBtn = document.getElementById('btnStepNext');
+            if (stepBtn) {
+                stepBtn.addEventListener('click', () => advancePipeline(true));
+            }
+
+            const newImgBtn = document.getElementById('btnNewImage');
+            if (newImgBtn) {
+                newImgBtn.addEventListener('click', () => generateImagePattern());
+            }
+
+            function updateStageUI() {
+                const maxSteps = getMaxIterations();
+                if (maxStepDisplay) maxStepDisplay.innerText = maxSteps;
+
+                const badge1 = document.getElementById('badgeStep1');
+                const badge2 = document.getElementById('badgeStep2');
+                const badge3 = document.getElementById('badgeStep3');
+                const exp = document.getElementById('stepExplanation');
+
+                if (currentStage === 0) {
+                    if (badge1) badge1.className = 'text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 shadow-sm transition-all';
+                    if (badge2) badge2.className = 'text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700 transition-all';
+                    if (badge3) badge3.className = 'text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700 transition-all';
+                    if (exp) exp.innerText = 'Input image x projects forward to activate population neurons (Wx). Recurrent inhibitory synapses remain visible.';
+                } else if (currentStage === 1) {
+                    if (badge1) badge1.className = 'text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700 transition-all';
+                    if (badge2) badge2.className = 'text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 shadow-sm transition-all';
+                    if (badge3) badge3.className = 'text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700 transition-all';
+                    if (exp) exp.innerText = `Lateral inhibition relaxes population into dark-orange stable state y* over ${maxSteps} Euler iterations.`;
+                } else {
+                    if (badge1) badge1.className = 'text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700 transition-all';
+                    if (badge2) badge2.className = 'text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700 transition-all';
+                    if (badge3) badge3.className = 'text-[11px] font-mono font-bold px-3 py-1 rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 shadow-sm transition-all';
+                    if (exp) exp.innerText = 'Local Hebbian plasticity applies ΔM_ij = η · y*_i · y*_j to co-active recurrent synapses. Updated weights glow yellow as they strengthen.';
+                }
+            }
+
+            function runSingleEulerStep() {
+                const dt = 0.08;
+                for (let i = 0; i < nNeurons; i++) {
+                    let sumInh = 0;
+                    const rowOffset = i * nNeurons;
+                    for (let j = 0; j < nNeurons; j++) {
+                        const mWeight = M[rowOffset + j];
+                        if (mWeight > 0.01 && activities[j] > 0.04) {
+                            sumInh += activities[j] * mWeight * 0.4;
+                        }
+                    }
+                    const derivative = feedForwardInputs[i] - sumInh - 0.12 * activities[i];
+                    activities[i] = Math.max(0, activities[i] + dt * derivative);
+                }
+                eulerStep++;
+                stageTimer++;
+            }
+
+            function applyLocalPlasticity() {
+                const hebEta = hebRateSlider ? parseFloat(hebRateSlider.value) : 0.05;
+                for (let i = 0; i < nNeurons; i += 2) {
+                    if (activities[i] > 0.15) {
+                        const rowOffset = i * nNeurons;
+                        for (let j = i + 1; j < nNeurons; j += 2) {
+                            if (activities[j] > 0.15 && M[rowOffset + j] > 0) {
+                                const dw = hebEta * 0.02 * activities[i] * activities[j];
+                                M[rowOffset + j] = Math.min(1.5, M[rowOffset + j] + dw);
+                                M[j * nNeurons + i] = M[rowOffset + j];
+                                plasticityHighlight[rowOffset + j] = 1;
+                                plasticityHighlight[j * nNeurons + i] = 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            function advancePipeline(forceStep = false) {
+                const maxSteps = getMaxIterations();
+                for (let k = 0; k < plasticityHighlight.length; k++) {
+                    plasticityHighlight[k] *= 0.9;
+                }
+
+                if (currentStage === 0) {
+                    stageTimer++;
+                    if (forceStep || stageTimer > 40) {
+                        currentStage = 1;
+                        stageTimer = 0;
+                        eulerStep = 0;
+                        if (forceStep) {
+                            while (eulerStep < maxSteps) runSingleEulerStep();
+                        }
+                    }
+                } else if (currentStage === 1) {
+                    if (forceStep) {
+                        while (eulerStep < maxSteps) runSingleEulerStep();
+                        currentStage = 2;
+                        stageTimer = 0;
+                        applyLocalPlasticity();
+                    } else {
+                        if (eulerStep < maxSteps) {
+                            runSingleEulerStep();
+                        } else {
+                            currentStage = 2;
+                            stageTimer = 0;
+                        }
+                    }
+                } else {
+                    if (forceStep || stageTimer < 45) {
+                        applyLocalPlasticity();
+                        stageTimer++;
+                    } else if (stageTimer++ > 90) {
+                        generateImagePattern();
+                    }
+                }
+
+                updateStageUI();
+
+                let sumAct = 0;
+                let sumInhWeight = 0;
+                let activeWeightCount = 0;
+                for (let i = 0; i < nNeurons; i++) {
+                    sumAct += activities[i];
+                    if (i % 3 === 0) {
+                        for (let j = i + 1; j < nNeurons; j += 4) {
+                            const w = M[i * nNeurons + j];
+                            if (w > 0.05) {
+                                sumInhWeight += w;
+                                activeWeightCount++;
+                            }
+                        }
+                    }
+                }
+
+                const stepEl = document.getElementById('pipeStepCount');
+                const firEl = document.getElementById('pipeMeanFiring');
+                const inhEl = document.getElementById('pipeMeanInhWeight');
+                if (stepEl) stepEl.innerText = eulerStep;
+                if (firEl) firEl.innerText = (sumAct / nNeurons).toFixed(2);
+                if (inhEl) inhEl.innerText = activeWeightCount > 0 ? (sumInhWeight / activeWeightCount).toFixed(2) : '0.50';
+            }
+
+            function draw() {
+                requestAnimationFrame(draw);
+
+                const boxRect = box.getBoundingClientRect();
+                const width = Math.max(750, boxRect.width || box.clientWidth || 800);
+                const height = Math.max(380, boxRect.height || box.clientHeight || 380);
+
+                ctx.clearRect(0, 0, width, height);
+                animPulse += 0.05;
+
+                // --- Input Image Patch ---
+                const imgBoxSize = Math.min(width * 0.18, height * 0.65);
+                const imgX = width * 0.05;
+                const imgY = (height - imgBoxSize) / 2;
+
+                ctx.strokeStyle = '#334155';
+                ctx.lineWidth = 1.5;
+                ctx.strokeRect(imgX, imgY, imgBoxSize, imgBoxSize);
+
+                const cellSize = imgBoxSize / 8;
+                for (let r = 0; r < 8; r++) {
+                    for (let c = 0; c < 8; c++) {
+                        const val = imagePatch[r * 8 + c];
+                        ctx.fillStyle = val > 0.5 ? '#38bdf8' : '#0f172a';
+                        ctx.fillRect(imgX + c * cellSize, imgY + r * cellSize, cellSize - 1, cellSize - 1);
+                    }
+                }
+
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '11px JetBrains Mono, monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('Input Image x', imgX + imgBoxSize / 2, imgY + imgBoxSize + 18);
+
+                // --- 150-Neuron Grid Layout ---
+                const gridStartX = width * 0.42;
+                const gridWidth = width * 0.52;
+                const gridHeight = height * 0.68;
+                const gridStartY = (height - gridHeight) / 2;
+
+                const colSpacing = gridWidth / (gridCols - 1);
+                const rowSpacing = gridHeight / (gridRows - 1);
+
+                // --- RECURRENT INHIBITORY CONNECTIONS ---
+                for (let i = 0; i < nNeurons; i += 3) {
+                    const r1 = Math.floor(i / gridCols);
+                    const c1 = i % gridCols;
+                    const x1 = gridStartX + c1 * colSpacing;
+                    const y1 = gridStartY + r1 * rowSpacing;
+                    const rowOffset = i * nNeurons;
+
+                    for (let j = i + 1; j < nNeurons; j += 4) {
+                        const weight = M[rowOffset + j];
+                        if (weight > 0.08) {
+                            const r2 = Math.floor(j / gridCols);
+                            const c2 = j % gridCols;
+                            const x2 = gridStartX + c2 * colSpacing;
+                            const y2 = gridStartY + r2 * rowSpacing;
+
+                            const highlight = plasticityHighlight[rowOffset + j];
+                            ctx.strokeStyle = highlight > 0.05
+                                ? `rgba(250, 204, 21, ${Math.min(1, highlight)})`
+                                : `rgba(244, 63, 94, ${Math.min(0.6, weight * 0.35)})`;
+                            ctx.lineWidth = highlight > 0.05
+                                ? Math.min(3.5, Math.max(1.2, weight * 1.8))
+                                : Math.min(2.5, Math.max(0.6, weight * 1.4));
+                            ctx.beginPath();
+                            ctx.moveTo(x1, y1);
+                            ctx.lineTo(x2, y2);
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                // --- PROJECTION ARROW ---
+                const arrowStartX = imgX + imgBoxSize + 10;
+                const arrowEndX = gridStartX - 18;
+                const arrowY = height * 0.5;
+
+                ctx.strokeStyle = currentStage === 0 ? '#3b82f6' : currentStage === 1 ? '#ea580c' : '#facc15';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(arrowStartX, arrowY);
+                ctx.lineTo(arrowEndX, arrowY);
+                ctx.stroke();
+
+                if (currentStage === 0) {
+                    const pulsePos = arrowStartX + ((animPulse * 40) % (arrowEndX - arrowStartX));
+                    ctx.fillStyle = '#60a5fa';
+                    ctx.beginPath();
+                    ctx.arc(pulsePos, arrowY, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                ctx.fillStyle = currentStage === 0 ? '#3b82f6' : currentStage === 1 ? '#ea580c' : '#facc15';
+                ctx.beginPath();
+                ctx.moveTo(arrowEndX, arrowY);
+                ctx.lineTo(arrowEndX - 8, arrowY - 5);
+                ctx.lineTo(arrowEndX - 8, arrowY + 5);
+                ctx.fill();
+
+                ctx.fillText(
+                    currentStage === 0 ? 'Projection Wx' : currentStage === 1 ? 'Stable Target y*' : 'Local Plasticity ΔM',
+                    (arrowStartX + arrowEndX) / 2,
+                    arrowY - 10
+                );
+
+                // --- NEURONS ---
+                for (let r = 0; r < gridRows; r++) {
+                    for (let c = 0; c < gridCols; c++) {
+                        const idx = r * gridCols + c;
+                        const nx = gridStartX + c * colSpacing;
+                        const ny = gridStartY + r * rowSpacing;
+                        const act = activities[idx];
+
+                        ctx.beginPath();
+                        ctx.arc(nx, ny, 4.5, 0, Math.PI * 2);
+
+                        if (act > 0.2) {
+                            ctx.fillStyle = currentStage === 0 ? '#3b82f6' : currentStage === 1 ? '#ea580c' : '#facc15';
+                            ctx.shadowColor = ctx.fillStyle;
+                            ctx.shadowBlur = currentStage === 1 ? 10 : currentStage === 2 ? 12 : 4;
+                        } else {
+                            ctx.fillStyle = '#1e293b';
+                            ctx.shadowBlur = 0;
+                        }
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                    }
+                }
+
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText('150-Neuron Grid with Recurrent Inhibitory Synapses M_ij', gridStartX + gridWidth / 2, gridStartY + gridHeight + 22);
+
+                if (isPlaying) {
+                    advancePipeline(false);
+                }
+            }
+
+            draw();
+        }
+
+        // Global Page Initialization
+        function initializePage() {
+            initTheme();
+            renderPublications('all', '');
+            setupSearch();
+            renderMath(document.body);
+            renderConsistencyManifoldEquation();
+            initPipelineSim();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializePage, { once: true });
+        } else {
+            initializePage();
+        }
+
+        window.addEventListener('load', () => {
+            initializePage();
+        });
+    </script>
+</body>
+</html>
